@@ -1,0 +1,4 @@
+interface:
+  display_name: "AUTO-07p Bifurcation Analysis"
+  short_description: "Install and run AUTO-07p reproducibly with Codex"
+  default_prompt: "Use $analyze-bifurcations-with-auto to install AUTO-07p locally and verify it with a bifurcation problem."

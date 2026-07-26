@@ -1,0 +1,15 @@
+# This model and continuation script are original AutoOnCodex examples.
+
+equilibria = run(e='hopf', c='hopf.eq')
+equilibria = rl(equilibria)
+
+hopf_points = equilibria('HB')
+if len(hopf_points) != 1:
+    raise RuntimeError(
+        'Expected exactly one Hopf point, found %d' % len(hopf_points)
+    )
+
+periodic = run(hopf_points[0], c='hopf.po')
+diagram = rl(equilibria + periodic)
+sv(diagram, 'custom-hopf')
+cl()

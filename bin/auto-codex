@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+auto_home="${repo_root}/.auto/current"
+env_file="${auto_home}/cmds/auto.env.sh"
+auto_bin="${auto_home}/bin/auto"
+
+if [[ ! -f "${env_file}" || ! -x "${auto_bin}" ]]; then
+  echo "AUTO-07p is not ready in this project." >&2
+  echo "Run: python3 scripts/autoctl.py install" >&2
+  exit 2
+fi
+
+if [[ "$(uname -s)" == "Darwin" && -z "${SDKROOT:-}" ]] && command -v xcrun >/dev/null 2>&1; then
+  sdkroot="$(xcrun --sdk macosx --show-sdk-path)"
+  if [[ -d "${sdkroot}" ]]; then
+    export SDKROOT="${sdkroot}"
+  fi
+fi
+
+source "${env_file}"
+exec "${auto_bin}" "$@"

@@ -1,0 +1,3 @@
+# Copy the official AUTO-07p ab demo into this run directory and execute it.
+demo('ab')
+auto('ab.auto')
