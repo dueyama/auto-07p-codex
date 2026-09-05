@@ -24,6 +24,11 @@ process. Do not source it from a persistent shell startup file.
 - C compiler
 - Fortran compiler (`gfortran`)
 
+For visualization, check that NumPy and Matplotlib are importable in the Python
+interpreter used to run the plotter. A successful `doctor` check does not verify
+these plotting dependencies. Prefer a project virtual environment to changing
+the system Python.
+
 On macOS, obtain `gfortran` through a trusted package manager when it is absent.
 On Debian-family Linux, the usual packages are `git`, `make`, `gcc`, and
 `gfortran`. Ask before installing system packages.
@@ -43,11 +48,16 @@ process when a specific compiler must be tested.
 ## Commands
 
 ```bash
-python3 scripts/autoctl.py doctor
-python3 scripts/autoctl.py install
-python3 scripts/autoctl.py verify
-python3 scripts/autoctl.py where
+python3 "<skill-dir>/scripts/autoctl.py" --project-root "<project-root>" doctor
+python3 "<skill-dir>/scripts/autoctl.py" --project-root "<project-root>" install
+python3 "<skill-dir>/scripts/autoctl.py" --project-root "<project-root>" verify
+python3 "<skill-dir>/scripts/autoctl.py" --project-root "<project-root>" where
 ```
+
+Resolve `<skill-dir>` from the loaded skill's location and `<project-root>` from
+the target project. These are alternative operations, not a sequence to execute
+for every request. Reuse a healthy installation for analysis; do not install or
+verify merely to inspect saved output.
 
 Use `install --ref <full-commit>` only when the user explicitly requests a
 different reviewed AUTO revision. Prefer full 40-character commit IDs.

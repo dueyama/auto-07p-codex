@@ -177,3 +177,29 @@ AUTO's environment for one child process without changing shell startup files.
 
 The integration code in this repository is MIT-licensed. AUTO-07p is a
 separate upstream project with its own authorship and distribution terms.
+
+## Changes
+
+### 2026-09-05 — Skill review for GPT-6
+
+This is a focused instruction update, not a change to the AUTO numerical
+engine or a requirement to use a particular Codex model.
+
+- Keep conversation as the interface: a request such as "run the ab demo and
+  show its bifurcation diagram" uses the demo defaults without unnecessary
+  clarification. Ask when missing information changes the scientific question.
+- Resolve helper scripts from the installed skill directory and pass explicit
+  project and AUTO paths, so a separate analysis project does not need a clone
+  of this repository.
+- Clarify that plots should be displayed in Codex, not merely linked, and that
+  NumPy and Matplotlib must be available to the plotting interpreter.
+- Check for branches omitted because axis columns are missing, and avoid
+  treating missing stability information as evidence of instability.
+- Separate installation verification from saved-output inspection; do not
+  rebuild AUTO or run an unrelated smoke test just to inspect existing data.
+- Retain project-local defaults while allowing user-selected output locations;
+  no machine-specific storage paths are prescribed.
+
+Validation for this update: skill structure validation and all 12 existing
+unit tests passed. AUTO builds and numerical continuation runs were not repeated;
+the platform results above refer to earlier testing.

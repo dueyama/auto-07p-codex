@@ -8,16 +8,28 @@ description: Install, diagnose, verify, and run AUTO-07p locally for continuatio
 Keep AUTO project-local. Do not modify shell startup files or place upstream
 AUTO source under Git control.
 
+Follow the user's requested scope and output preferences. A simple request such
+as "run the ab demo and show its bifurcation diagram" is enough: use the demo's
+supplied model and constants, run it, and show the plot. Ask only when missing
+information materially changes the scientific question; do not turn available
+defaults into a questionnaire. Diagnosis alone does not authorize installation
+or changes to the environment.
+
+In commands below, `<skill-dir>` is the absolute directory containing this
+`SKILL.md`, not the user's working directory. `<project-root>` is the target
+project. Resolve and quote these paths before running commands; the target
+project need not contain this repository's scripts or wrapper.
+
 ## Install or diagnose
 
 1. Locate the target project root. Default to the current working directory.
-2. Run `python3 <skill-dir>/scripts/autoctl.py --project-root <root> doctor`.
+2. Run `python3 "<skill-dir>/scripts/autoctl.py" --project-root "<project-root>" doctor`.
 3. If required system tools are absent, report the exact missing tools. Obtain
    approval before using a system package manager.
 4. Run the `install` command when the user requested installation. It retrieves
    the pinned official AUTO-07p commit, builds it under `.auto/versions/`, and
    switches `.auto/current` only after the build succeeds.
-5. Run `verify`. Do not claim success from clone, build, PID, or exit status
+5. After installation or a rebuild, run `verify`. Do not claim success from clone, build, PID, or exit status
    alone. Require the generated environment, executable, Python interface, and
    smoke-test artifacts to pass.
 6. Report `.auto/install-manifest.json`, the resolved commit, compiler version,
@@ -48,14 +60,23 @@ step. After an accepted run:
 
 1. Select axes from the scientific request and available AUTO columns. Confirm
    ambiguous parameter indices instead of guessing.
-2. Run `scripts/plot_bifurcation.py <run-dir>/b.<name>`.
+2. Run the bundled plotter with explicit paths:
+
+   ```bash
+   python3 "<skill-dir>/scripts/plot_bifurcation.py" "<run-dir>/b.<name>" \
+     --auto-dir "<project-root>/.auto/current" --output-dir "<run-dir>/plots"
+   ```
+
+   Set `--x` and `--y` to the chosen columns. Parsing saved results does not
+   require rebuilding AUTO or running an unrelated smoke test.
 3. Generate PNG and SVG for viewing, tidy CSV for reuse, and JSON containing
    provenance and special points.
 4. Draw stable segments as solid and unstable segments as dashed. Distinguish
    equilibrium and periodic-orbit families.
 5. Mark and label detected special points such as `HB`, `LP`, `BP`, `PD`, and
    `TR`.
-6. Display the generated figure in Codex and link the durable output files.
+6. Display the generated figure in Codex using an absolute local image path
+   and link the durable output files. A file path alone is not a displayed plot.
 7. Check the figure against the CSV and AUTO labels before describing it.
 
 For a periodic branch, consider an amplitude plot and a period plot when both
@@ -78,6 +99,8 @@ range. Suggest a bounded next experiment instead of silently widening a scan.
 
 - Treat AUTO equation files as executable native code because they are compiled.
 - Inspect unfamiliar model sources before building them.
-- Keep downloads, builds, and generated outputs inside the target project.
+- Keep AUTO downloads and builds under the target project's `.auto/`. Default
+  analysis outputs to a dedicated project run directory; honor an explicitly
+  requested output or temporary-storage location.
 - Refuse an uninstall target unless it resolves exactly to `<project>/.auto`.
 - Do not redistribute or commit the upstream AUTO-07p source.

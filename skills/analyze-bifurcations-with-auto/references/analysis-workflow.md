@@ -6,6 +6,11 @@ Identify the equations, state variables, free parameters, initial solution,
 continuation direction, parameter bounds, and requested special points before
 running a continuation.
 
+Obtain these from the supplied model, demo constants, and conversation first.
+For a named demo, use its defaults unless the user requests changes. For a new
+model, state reasonable numerical defaults and proceed when the scientific
+intent is clear; ask when equations or the parameter mapping are ambiguous.
+
 Use a copied run directory rather than editing a user's accepted model in
 place. Record the relationship between parameter indices (`PAR(i)`) and
 scientific parameter names.
@@ -47,3 +52,9 @@ points with both shape and text so the plot does not depend on color alone.
 
 Never connect separate AUTO branches. Preserve branch order, stability
 transitions, and the parameter/value pair attached to every annotation.
+
+Check that every intended branch has the selected axis columns: the bundled
+plotter skips branches that lack them. Do not describe a partial plot as the
+whole computed structure. Verify that stability information is applicable to
+the problem; missing or unsupported stability information is not evidence of
+instability.
